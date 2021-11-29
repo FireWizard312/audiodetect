@@ -20,7 +20,6 @@ me=[]
 ton=[]
 lab=[]
 for i in tqdm(range(len(data))):
-
     f_name=data_root + '/audio/fold'+str(data.fold[i])+'/'+str(data.slice_file_name[i])
     X, s_rate = librosa.load(f_name, res_type='kaiser_fast')
     mf = np.mean(librosa.feature.mfcc(y=X, sr=s_rate).T,axis=0)
@@ -42,12 +41,16 @@ for i in tqdm(range(len(data))):
         print(i)
 mfcc = pd.DataFrame(mfc)
 mfcc.to_csv(data_root + '/metadata/mfc.csv', index=False)
+
 chrr = pd.DataFrame(chr)
 chrr.to_csv(data_root + '/metadata/hr.csv', index=False)
+
 mee = pd.DataFrame(me)
 mee.to_csv(data_root + '/metadata/me.csv', index=False)
+
 tonn = pd.DataFrame(ton)
 tonn.to_csv(data_root + '/metadata/ton.csv', index=False)
+
 la = pd.DataFrame(lab)
 la.to_csv(data_root + '/metadata/labels.csv', index=False)
 
@@ -58,30 +61,34 @@ for i in range(len(ton)):
 fea = pd.DataFrame(features)
 fea.to_csv(data_root + '/metadata/features2.csv', index=False)
 
-# features[:5]
-# len(features)
+features[:5]
+len(features)
 # features.shape
-# la = pd.get_dummies(lab)
-# label_columns=la.columns
-# target = la.to_numpy() 
-# target.shape
-# tran = StandardScaler()
-# features_train = tran.fit_transform(features)
-# feat_train=features_train[:4434]
-# target_train=target[:4434]
-# y_train=features_train[4434:5330]
-# y_val=target[4434:5330]
-# test_data=features_train[5330:]
-# test_label=lab['0'][5330:]
-# print("Training",feat_train.shape)
-# print(target_train.shape)
-# print("Validation",y_train.shape)
-# print(y_val.shape)
-# print("Test",test_data.shape)
+
+la = pd.get_dummies(lab)
+label_columns=la.columns
+target = la.to_numpy() 
+target.shape
+
+tran = StandardScaler()
+features_train = tran.fit_transform(features)
+
+feat_train=features_train[:6]
+target_train=target[:6]
+
+y_train=features_train[6:8]
+y_val=target[6:8]
+test_data=features_train[8:]
+test_label=lab[8:]
+print("Training",feat_train.shape)
+print(target_train.shape)
+print("Validation",y_train.shape)
+print(y_val.shape)
+print("Test",test_data.shape)
 # print(test_label.shape)
 
 model = Sequential()
-model.add(Dense(186, input_shape=(186,), activation = 'relu'))
+model.add(Dense(166, input_shape=(166,), activation = 'relu'))
 model.add(Dense(256, activation = 'relu'))
 model.add(Dropout(0.6))
 
@@ -91,7 +98,7 @@ model.add(Dropout(0.5))
 model.add(Dense(10, activation = 'softmax'))
 
 model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer='adam')
-history = model.fit(feat_train, target_train, batch_size=64, epochs=30, 
+history = model.fit(feat_train, target_train, batch_size=1, epochs=30, 
                     validation_data=(y_train, y_val))
 train_acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
