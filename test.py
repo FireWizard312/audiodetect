@@ -95,7 +95,7 @@ model.add(Dropout(0.6))
 model.add(Dense(128, activation = 'relu'))
 model.add(Dropout(0.5))
 
-model.add(Dense(10, activation = 'softmax'))
+model.add(Dense(2, activation = 'softmax'))
 
 model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer='adam')
 history = model.fit(feat_train, target_train, batch_size=1, epochs=30, 
