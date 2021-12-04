@@ -10,10 +10,13 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import Adam
 
-data_root = "/Users/mliu/Downloads/UrbanSound8K-small-test"
+#to get the current working directory
+working_dir = os.getcwd()
+home_dir = os.path.expanduser('~')
+data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
 
 ipd.Audio(data_root + '/audio/fold5/111671-8-0-16.wav')
-data = pd.read_csv(data_root + '/metadata/UrbanSound8K-smallset.csv')
+data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K-smallset.csv')
 mfc=[]
 chr=[]
 me=[]
