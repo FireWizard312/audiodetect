@@ -73,13 +73,13 @@ target.shape
 tran = StandardScaler()
 features_train = tran.fit_transform(features)
 
-feat_train=features_train[:6]
-target_train=target[:6]
+feat_train=features_train[:20]
+target_train=target[:20]
 
-y_train=features_train[6:8]
-y_val=target[6:8]
-test_data=features_train[8:]
-test_label=lab[8:]
+y_train=features_train[20:26]
+y_val=target[20:26]
+test_data=features_train[26:]
+test_label=lab[26:]
 print("Training",feat_train.shape)
 print(target_train.shape)
 print("Validation",y_train.shape)
@@ -98,7 +98,7 @@ model.add(Dropout(0.5))
 model.add(Dense(2, activation = 'softmax'))
 
 model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer='adam')
-history = model.fit(feat_train, target_train, batch_size=1, epochs=30, 
+history = model.fit(feat_train, target_train, batch_size=4, epochs=30, 
                     validation_data=(y_train, y_val))
 train_acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
