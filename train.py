@@ -13,9 +13,9 @@ from keras.optimizers import Adam
 # to get the current working directory
 working_dir = os.getcwd()
 home_dir = os.path.expanduser('~')
-#data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
+data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
 
-fea2 = pd.read_csv(working_dir + '/trainingdata/features2.csv')
+fea2 = pd.read_csv(data_root + '/metadata/features2.csv')
 features2 = []
 for i in range(len(fea2['1'])):
     feadd = []
@@ -23,7 +23,7 @@ for i in range(len(fea2['1'])):
         feadd.append(fea2[str(x)][i])
     feadd = np.array(feadd)
     features2.append(feadd)
-la2 = pd.read_csv(working_dir + '/trainingdata/labels.csv')
+la2 = pd.read_csv(data_root + '/metadata/labels.csv')
 lab2 = []
 for i in range(len(la2)):
     lab2.append(la2['0'][i])
@@ -37,11 +37,11 @@ target = la.to_numpy()
 tran = StandardScaler()
 features_train = tran.fit_transform(features2)
 
-feat_train = features_train[:5732]
-target_train = target[:5732]
+feat_train = features_train[:800]
+target_train = target[:800]
 
-y_train = features_train[5732:]
-y_val = target[5732:]
+y_train = features_train[800:]
+y_val = target[800:]
 #test_data=features_train[7732:]
 #test_label=lab2[7732:]
 print("Training", feat_train.shape)
@@ -68,20 +68,20 @@ history = model.fit(feat_train, target_train, batch_size=64, epochs=90,
 train_acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 
-## Set figure size.
-# plt.figure(figsize=(10, 7))
+# Set figure size.
+plt.figure(figsize=(10, 7))
 
-# #Generate line plot of training, testing loss over epochs.
-# plt.plot(train_acc, label='Training Accuracy', color='blue')
-# plt.plot(val_acc, label='Validation Accuracy', color='yellow')
+#Generate line plot of training, testing loss over epochs.
+plt.plot(train_acc, label='Training Accuracy', color='blue')
+plt.plot(val_acc, label='Validation Accuracy', color='yellow')
 
-# #Set title
-# plt.title('Training and Validation Accuracy', fontsize=21)
-# plt.xlabel('Epoch', fontsize=15)
-# plt.legend(fontsize=15)
-# plt.ylabel('Accuracy', fontsize=15)
-# plt.xticks(range(0, 30, 5), range(0, 30, 5))
-model_json = model.to_json()
-with open( working_dir+ "/trainingdata/model.json", "w") as json_file:
-    json_file.write(model_json)
-model.save_weights("model.h5")
+#Set title
+plt.title('Training and Validation Accuracy', fontsize=21)
+plt.xlabel('Epoch', fontsize=15)
+plt.legend(fontsize=15)
+plt.ylabel('Accuracy', fontsize=15)
+plt.xticks(range(0, 30, 5), range(0, 30, 5))
+# model_json = model.to_json()
+# with open(working_dir+ "/trainingdata/model.json", "w") as json_file:
+#     json_file.write(model_json)
+# model.save_weights("model.h5")
