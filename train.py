@@ -53,13 +53,13 @@ target = la.to_numpy()
 tran = StandardScaler()
 features_train = tran.fit_transform(features2)
 
-feat_train = features_train[:6986]
-target_train = target[:6986]
+feat_train = features_train[:5732]
+target_train = target[:5732]
 
-y_train = features_train[6986:]
-y_val = target[6986:]
-# test_data=features_train[444:]
-# test_label=lab2[444:]
+y_train = features_train[5732:7732]
+y_val = target[5732:7732]
+test_data=features_train[7732:]
+test_label=lab2[7732:]
 test = featureget('/Users/mliu/Downloads/mixkit-ambulance-siren-uk-1640.wav')
 print("Training", feat_train.shape)
 print(target_train.shape)
@@ -98,8 +98,12 @@ plt.xlabel('Epoch', fontsize=15)
 plt.legend(fontsize=15)
 plt.ylabel('Accuracy', fontsize=15)
 plt.xticks(range(0, 30, 5), range(0, 30, 5))
-print(test)
-predict = np.argmax(model.predict(test), axis=-1)
+model_json = model.to_json()
+with open("/Users/mliu/Documents/src/audiodetect/trainingdata/model.json", "w") as json_file:
+    json_file.write(model_json)
+model.save_weights("model.h5")
+# print(test)
+predict = np.argmax(model.predict(test_data), axis=-1)
 print(predict)
 # prediction = []
 # for i in predict:
