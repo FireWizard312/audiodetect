@@ -16,7 +16,7 @@ home_dir = os.path.expanduser('~')
 data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
 
 ipd.Audio(data_root + '/audio/fold5/111671-8-0-16.wav')
-data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K-smallset.csv')
+data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
 mfc=[]
 chr=[]
 me=[]
@@ -63,72 +63,72 @@ for i in range(len(ton)):
                 ton[i], chr[i]), axis=0))
 fea = pd.DataFrame(features)
 fea.to_csv(data_root + '/metadata/features2.csv', index=False)
-fea2 = pd.read_csv(data_root + '/metadata/features2.csv')
-features2 = []
-for i in range(len(fea2['1'])):
-    feadd = []
-    for x in range(166):
-        feadd.append(fea2[str(x)][i])
-    feadd = np.array(feadd)
-    features2.append(feadd)
+# fea2 = pd.read_csv(data_root + '/metadata/features2.csv')
+# features2 = []
+# for i in range(len(fea2['1'])):
+#     feadd = []
+#     for x in range(166):
+#         feadd.append(fea2[str(x)][i])
+#     feadd = np.array(feadd)
+#     features2.append(feadd)
 
 
-print(features2)
-la = pd.get_dummies(lab)
-label_columns=la.columns
-target = la.to_numpy() 
+# print(features2)
+# la = pd.get_dummies(lab)
+# label_columns=la.columns
+# target = la.to_numpy() 
 
-tran = StandardScaler()
-features_train = tran.fit_transform(features2)
+# tran = StandardScaler()
+# features_train = tran.fit_transform(features2)
 
-feat_train=features_train[:333]
-target_train=target[:333]
+# feat_train=features_train[:333]
+# target_train=target[:333]
 
-y_train=features_train[333:444]
-y_val=target[333:444]
-test_data=features_train[444:]
-test_label=lab[444:]
-print("Training",feat_train.shape)
-print(target_train.shape)
-print("Validation",y_train.shape)
-print(y_val.shape)
-print("Test",test_data.shape)
-# print(test_label.shape)
+# y_train=features_train[333:444]
+# y_val=target[333:444]
+# test_data=features_train[444:]
+# test_label=lab[444:]
+# print("Training",feat_train.shape)
+# print(target_train.shape)
+# print("Validation",y_train.shape)
+# print(y_val.shape)
+# print("Test",test_data.shape)
+# # print(test_label.shape)
 
-model = Sequential()
-model.add(Dense(166, input_shape=(166,), activation = 'relu'))
-model.add(Dense(256, activation = 'relu'))
-model.add(Dropout(0.6))
+# model = Sequential()
+# model.add(Dense(166, input_shape=(166,), activation = 'relu'))
+# model.add(Dense(256, activation = 'relu'))
+# model.add(Dropout(0.6))
 
-model.add(Dense(128, activation = 'relu'))
-model.add(Dropout(0.5))
+# model.add(Dense(128, activation = 'relu'))
+# model.add(Dropout(0.5))
 
-model.add(Dense(10, activation = 'softmax'))
+# model.add(Dense(10, activation = 'softmax'))
 
-model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer='adam')
-history = model.fit(feat_train, target_train, batch_size=64, epochs=30, 
-                    validation_data=(y_train, y_val))
-train_acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
+# model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer='adam')
+# history = model.fit(feat_train, target_train, batch_size=64, epochs=30, 
+#                     validation_data=(y_train, y_val))
+# train_acc = history.history['accuracy']
+# val_acc = history.history['val_accuracy']
 
-# Set figure size.
-plt.figure(figsize=(10, 7))
+# # Set figure size.
+# plt.figure(figsize=(10, 7))
 
-# Generate line plot of training, testing loss over epochs.
-plt.plot(train_acc, label='Training Accuracy', color='blue')
-plt.plot(val_acc, label='Validation Accuracy', color='yellow')
+# # Generate line plot of training, testing loss over epochs.
+# plt.plot(train_acc, label='Training Accuracy', color='blue')
+# plt.plot(val_acc, label='Validation Accuracy', color='yellow')
 
-# Set title
-plt.title('Training and Validation Accuracy', fontsize = 21)
-plt.xlabel('Epoch', fontsize = 15)
-plt.legend(fontsize = 15)
-plt.ylabel('Accuracy', fontsize = 15)
-plt.xticks(range(0,30,5), range(0,30,5));
-predict = np.argmax(model.predict(test_data), axis=-1)
-print(predict)
-print(label_columns)
-prediction=[]
-for i in predict:
-    j=label_columns[i]
-    prediction.append(j)
-print(prediction)
+# # Set title
+# plt.title('Training and Validation Accuracy', fontsize = 21)
+# plt.xlabel('Epoch', fontsize = 15)
+# plt.legend(fontsize = 15)
+# plt.ylabel('Accuracy', fontsize = 15)
+# plt.xticks(range(0,30,5), range(0,30,5));
+# predict = np.argmax(model.predict(test_data), axis=-1)
+# print(predict)
+# print(label_columns)
+# prediction=[]
+# for i in predict:
+#     j=label_columns[i]
+#     prediction.append(j)
+# print(prediction)
