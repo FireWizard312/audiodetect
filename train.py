@@ -23,6 +23,7 @@ feature_count = fea2.shape[1]
 print( f'read {row_count} number of rows of {feature_count} features')
 features2 = fea2.to_numpy()
 
+
 # Load labels
 la = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
 lab2 = la['classID'].to_numpy()
@@ -36,8 +37,12 @@ print(f'Unique label counts in the validation set: {validation_unique_count}')
 training_labels = to_categorical(training_labels.tolist(), category_count)
 validation_labels = to_categorical(validation_labels.tolist(), category_count)
 
+
+
+
 print(f'training data X shape {training_features.shape}')
 print(f'training data Y shape {validation_features.shape}')
+
 
 model = Sequential()
 model.add(Dense(256, input_shape=(feature_count,), activation='relu'))
@@ -56,12 +61,13 @@ history = model.fit(training_features, training_labels, batch_size=32, epochs=30
 train_acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 
-## Set figure size.
-# plt.figure(figsize=(10, 7))
+# Set figure size.
+plt.figure(figsize=(10, 7))
 
-# #Generate line plot of training, testing loss over epochs.
-# plt.plot(train_acc, label='Training Accuracy', color='blue')
-# plt.plot(val_acc, label='Validation Accuracy', color='yellow')
+#Generate line plot of training, testing loss over epochs.
+plt.plot(train_acc, label='Training Accuracy', color='blue')
+plt.plot(val_acc, label='Validation Accuracy', color='yellow')
+
 
 # #Set title
 # plt.title('Training and Validation Accuracy', fontsize=21)
@@ -72,5 +78,6 @@ val_acc = history.history['val_accuracy']
 
 # model_json = model.to_json()
 # with open( working_dir+ "/trainingdata/model.json", "w") as json_file:
+
 #     json_file.write(model_json)
 # model.save_weights("model.h5")
