@@ -56,7 +56,7 @@ model.add(Dense(10, activation='softmax'))
 model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'], optimizer='adam')
 
-history = model.fit(training_features, training_labels, batch_size=32, epochs=30,
+history = model.fit(training_features, training_labels, batch_size=32, epochs=400,
                     validation_data=(validation_features, validation_labels))
 train_acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
@@ -67,7 +67,7 @@ plt.figure(figsize=(10, 7))
 #Generate line plot of training, testing loss over epochs.
 plt.plot(train_acc, label='Training Accuracy', color='blue')
 plt.plot(val_acc, label='Validation Accuracy', color='yellow')
-
+a=1
 
 # #Set title
 # plt.title('Training and Validation Accuracy', fontsize=21)
