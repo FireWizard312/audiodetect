@@ -63,26 +63,31 @@ for i in range(len(ton)):
                 ton[i], chr[i]), axis=0))
 fea = pd.DataFrame(features)
 fea.to_csv(data_root + '/metadata/features2.csv', index=False)
+fea2 = pd.read_csv(data_root + '/metadata/features2.csv')
+features2 = []
+for i in range(len(fea2['1'])):
+    feadd = []
+    for x in range(166):
+        feadd.append(fea2[str(x)][i])
+    feadd = np.array(feadd)
+    features2.append(feadd)
 
-features[:5]
-len(features)
-# features.shape
 
+print(features2)
 la = pd.get_dummies(lab)
 label_columns=la.columns
 target = la.to_numpy() 
-target.shape
 
 tran = StandardScaler()
-features_train = tran.fit_transform(features)
+features_train = tran.fit_transform(features2)
 
-feat_train=features_train[:666]
-target_train=target[:666]
+feat_train=features_train[:333]
+target_train=target[:333]
 
-y_train=features_train[666:888]
-y_val=target[666:888]
-test_data=features_train[888:]
-test_label=lab[888:]
+y_train=features_train[333:444]
+y_val=target[333:444]
+test_data=features_train[444:]
+test_label=lab[444:]
 print("Training",feat_train.shape)
 print(target_train.shape)
 print("Validation",y_train.shape)
@@ -101,7 +106,7 @@ model.add(Dropout(0.5))
 model.add(Dense(10, activation = 'softmax'))
 
 model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer='adam')
-history = model.fit(feat_train, target_train, batch_size=112, epochs=30, 
+history = model.fit(feat_train, target_train, batch_size=64, epochs=30, 
                     validation_data=(y_train, y_val))
 train_acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
@@ -119,11 +124,11 @@ plt.xlabel('Epoch', fontsize = 15)
 plt.legend(fontsize = 15)
 plt.ylabel('Accuracy', fontsize = 15)
 plt.xticks(range(0,30,5), range(0,30,5));
-predict = model.predict_classes(test_data)
-predict
-label_columns
+predict = np.argmax(model.predict(test_data), axis=-1)
+print(predict)
+print(label_columns)
 prediction=[]
 for i in predict:
     j=label_columns[i]
     prediction.append(j)
-prediction
+print(prediction)
