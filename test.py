@@ -42,6 +42,19 @@ for i in tqdm(range(len(data))):
     chr.append(c)
     if i % 100 == 0:
         print(i)
+    # f_name = file
+    # X, s_rate = librosa.load(f_name, res_type='kaiser_fast')
+    # mf = np.mean(librosa.feature.mfcc(y=X, sr=s_rate).T, axis=0)
+    # try:
+    #     t = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(X),
+    #                                         sr=s_rate).T, axis=0)
+    # except:
+    #     print(f_name)
+    # m = np.mean(librosa.feature.melspectrogram(X, sr=s_rate).T, axis=0)
+    # s = np.abs(librosa.stft(X))
+    # c = np.mean(librosa.feature.chroma_stft(S=s, sr=s_rate).T, axis=0)
+    # features= np.concatenate((m, mf, t, c), axis=0)
+    # return features
 mfcc = pd.DataFrame(mfc)
 mfcc.to_csv(data_root + '/metadata/mfc.csv', index=False)
 

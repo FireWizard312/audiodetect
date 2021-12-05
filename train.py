@@ -60,7 +60,6 @@ y_train = features_train[5732:7732]
 y_val = target[5732:7732]
 test_data=features_train[7732:]
 test_label=lab2[7732:]
-test = featureget('/Users/mliu/Downloads/mixkit-ambulance-siren-uk-1640.wav')
 print("Training", feat_train.shape)
 print(target_train.shape)
 print("Validation", y_train.shape)
@@ -80,33 +79,25 @@ model.add(Dense(10, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'], optimizer='adam')
-history = model.fit(feat_train, target_train, batch_size=64, epochs=30,
+history = model.fit(feat_train, target_train, batch_size=64, epochs=3000,
                     validation_data=(y_train, y_val))
 train_acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 
-# Set figure size.
-plt.figure(figsize=(10, 7))
+## Set figure size.
+# plt.figure(figsize=(10, 7))
 
-# Generate line plot of training, testing loss over epochs.
-plt.plot(train_acc, label='Training Accuracy', color='blue')
-plt.plot(val_acc, label='Validation Accuracy', color='yellow')
+# #Generate line plot of training, testing loss over epochs.
+# plt.plot(train_acc, label='Training Accuracy', color='blue')
+# plt.plot(val_acc, label='Validation Accuracy', color='yellow')
 
-# Set title
-plt.title('Training and Validation Accuracy', fontsize=21)
-plt.xlabel('Epoch', fontsize=15)
-plt.legend(fontsize=15)
-plt.ylabel('Accuracy', fontsize=15)
-plt.xticks(range(0, 30, 5), range(0, 30, 5))
+# #Set title
+# plt.title('Training and Validation Accuracy', fontsize=21)
+# plt.xlabel('Epoch', fontsize=15)
+# plt.legend(fontsize=15)
+# plt.ylabel('Accuracy', fontsize=15)
+# plt.xticks(range(0, 30, 5), range(0, 30, 5))
 model_json = model.to_json()
 with open("/Users/mliu/Documents/src/audiodetect/trainingdata/model.json", "w") as json_file:
     json_file.write(model_json)
 model.save_weights("model.h5")
-# print(test)
-predict = np.argmax(model.predict(test_data), axis=-1)
-print(predict)
-# prediction = []
-# for i in predict:
-#     j = label_columns[i]
-#     prediction.append(j)
-# print(prediction)
