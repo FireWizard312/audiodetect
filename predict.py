@@ -10,6 +10,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import Adam
 from keras.models import model_from_json
+import featureget
 
 json_file = open('/Users/mliu/Documents/src/audiodetect/trainingdata/model.json', 'r')
 loaded_model_json = json_file.read()
@@ -50,23 +51,6 @@ data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
 #                 ton[i], chr[i]), axis=0))
 
 
-def featureget(file):
-    f_name = file
-    X, s_rate = librosa.load(f_name, res_type='kaiser_fast')
-    mf = np.mean(librosa.feature.mfcc(y=X, sr=s_rate).T, axis=0)
-    try:
-        t = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(X),
-                                            sr=s_rate).T, axis=0)
-    except:
-        print(f_name)
-    m = np.mean(librosa.feature.melspectrogram(X, sr=s_rate).T, axis=0)
-    s = np.abs(librosa.stft(X))
-    c = np.mean(librosa.feature.chroma_stft(S=s, sr=s_rate).T, axis=0)
-    features= np.concatenate((m, mf, t, c), axis=0)
-    tran = StandardScaler()
-    features = features.reshape(1, -1)
-    features = tran.fit_transform(features)
-    return features
-test = featureget('/Users/mliu/Downloads/mixkit-ambulance-siren-uk-1640.wav')
+test = featureget.get('/Users/mliu/Downloads/UrbanSound8K-small-test/audio/fold5/100032-3-0-0.wav')
 predict = np.argmax(model.predict(test), axis=-1)
 print(predict)
