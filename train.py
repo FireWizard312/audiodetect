@@ -6,65 +6,58 @@ import matplotlib.pyplot as plt
 import librosa
 from tqdm import tqdm
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import Adam
+from keras.utils import to_categorical
 
 # to get the current working directory
 working_dir = os.getcwd()
 home_dir = os.path.expanduser('~')
-data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
 
-fea2 = pd.read_csv(data_root + '/metadata/features2.csv')
-features2 = []
-for i in range(len(fea2['1'])):
-    feadd = []
-    for x in range(166):
-        feadd.append(fea2[str(x)][i])
-    feadd = np.array(feadd)
-    features2.append(feadd)
-la2 = pd.read_csv(data_root + '/metadata/labels.csv')
-lab2 = []
-for i in range(len(la2)):
-    lab2.append(la2['0'][i])
+# Load feature data
+fea2 = pd.read_csv(working_dir + '/trainingdata/features2.csv', )
+row_count = fea2.shape[0]
+feature_count = fea2.shape[1]
+print( f'read {row_count} number of rows of {feature_count} features')
+features2 = fea2.to_numpy()
 
 
+# Load labels
+la = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
+lab2 = la['classID'].to_numpy()
+category_count = len(np.unique(lab2))
 
-la = pd.get_dummies(lab2)
-label_columns = la.columns
-target = la.to_numpy()
+training_features, validation_features, training_labels, validation_labels = train_test_split(features2, lab2, stratify=lab2, test_size=0.2)
+unique, counts = np.unique(validation_labels, return_counts=True)
+validation_unique_count = dict(zip(unique, counts))
+print(f'Unique label counts in the validation set: {validation_unique_count}')
 
-tran = StandardScaler()
-features_train = tran.fit_transform(features2)
+training_labels = to_categorical(training_labels.tolist(), category_count)
+validation_labels = to_categorical(validation_labels.tolist(), category_count)
 
-feat_train = features_train[:800]
-target_train = target[:800]
 
-y_train = features_train[800:]
-y_val = target[800:]
-#test_data=features_train[7732:]
-#test_label=lab2[7732:]
-print("Training", feat_train.shape)
-print(target_train.shape)
-print("Validation", y_train.shape)
-print(y_val.shape)
-# print("Test",test_data.shape)
-# print(test_label.shape)
+
+
+print(f'training data X shape {training_features.shape}')
+print(f'training data Y shape {validation_features.shape}')
+
 
 model = Sequential()
-model.add(Dense(166, input_shape=(166,), activation='relu'))
-model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.6))
+model.add(Dense(256, input_shape=(feature_count,), activation='relu'))
+model.add(Dropout(0.4))
 
 model.add(Dense(128, activation='relu'))
-model.add(Dropout(0.5))
+model.add(Dropout(0.4))
 
 model.add(Dense(10, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'], optimizer='adam')
-history = model.fit(feat_train, target_train, batch_size=64, epochs=90,
-                    validation_data=(y_train, y_val))
+
+history = model.fit(training_features, training_labels, batch_size=32, epochs=30,
+                    validation_data=(validation_features, validation_labels))
 train_acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 
@@ -75,13 +68,16 @@ plt.figure(figsize=(10, 7))
 plt.plot(train_acc, label='Training Accuracy', color='blue')
 plt.plot(val_acc, label='Validation Accuracy', color='yellow')
 
-#Set title
-plt.title('Training and Validation Accuracy', fontsize=21)
-plt.xlabel('Epoch', fontsize=15)
-plt.legend(fontsize=15)
-plt.ylabel('Accuracy', fontsize=15)
-plt.xticks(range(0, 30, 5), range(0, 30, 5))
+
+# #Set title
+# plt.title('Training and Validation Accuracy', fontsize=21)
+# plt.xlabel('Epoch', fontsize=15)
+# plt.legend(fontsize=15)
+# plt.ylabel('Accuracy', fontsize=15)
+# plt.xticks(range(0, 30, 5), range(0, 30, 5))
+
 # model_json = model.to_json()
-# with open(working_dir+ "/trainingdata/model.json", "w") as json_file:
+# with open( working_dir+ "/trainingdata/model.json", "w") as json_file:
+
 #     json_file.write(model_json)
 # model.save_weights("model.h5")
