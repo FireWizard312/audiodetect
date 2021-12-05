@@ -67,17 +67,15 @@ plt.figure(figsize=(10, 7))
 #Generate line plot of training, testing loss over epochs.
 plt.plot(train_acc, label='Training Accuracy', color='blue')
 plt.plot(val_acc, label='Validation Accuracy', color='yellow')
-a=1
 
-# #Set title
-# plt.title('Training and Validation Accuracy', fontsize=21)
-# plt.xlabel('Epoch', fontsize=15)
-# plt.legend(fontsize=15)
-# plt.ylabel('Accuracy', fontsize=15)
-# plt.xticks(range(0, 30, 5), range(0, 30, 5))
+#Set title
+plt.title('Training and Validation Accuracy', fontsize=21)
+plt.xlabel('Epoch', fontsize=15)
+plt.legend(fontsize=15)
+plt.ylabel('Accuracy', fontsize=15)
 
-# model_json = model.to_json()
-# with open( working_dir+ "/trainingdata/model.json", "w") as json_file:
+model_json = model.to_json()
+with open( working_dir+ "/trainingdata/model.json", "w") as json_file:
 
-#     json_file.write(model_json)
-# model.save_weights("model.h5")
+    json_file.write(model_json)
+model.save_weights("model.h5")

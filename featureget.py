@@ -24,7 +24,5 @@ def get(file):
     s = np.abs(librosa.stft(X))
     c = np.mean(librosa.feature.chroma_stft(S=s, sr=s_rate).T, axis=0)
     features= np.concatenate((m, mf, t, c), axis=0)
-    tran = StandardScaler()
     features = features.reshape(1, -1)
-    features = tran.fit_transform(features)
     return features
