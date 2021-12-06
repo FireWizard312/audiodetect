@@ -12,7 +12,11 @@ from keras.optimizers import Adam
 from keras.models import model_from_json
 import featureget
 
-json_file = open('/Users/mliu/Documents/src/audiodetect/trainingdata/model.json', 'r')
+working_dir = os.getcwd()
+home_dir = os.path.expanduser('~')
+data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
+
+json_file = open(working_dir + '/trainingdata/model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 model = model_from_json(loaded_model_json)
@@ -51,6 +55,6 @@ data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
 #                 ton[i], chr[i]), axis=0))
 
 
-test = featureget.get('/Users/mliu/Downloads/UrbanSound8K-small-test/audio/fold5/100032-3-0-0.wav')
+test = featureget.get('/Users/mliu/Downloads/UrbanSound8K/audio/fold10/100648-1-4-0.wav')
 predict = np.argmax(model.predict(test), axis=-1)
 print(predict)
