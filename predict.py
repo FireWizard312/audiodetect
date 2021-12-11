@@ -48,6 +48,6 @@ sd.wait()
 
 write(save_dir + "/recording0.wav", freq, recording)
 
-test = featureget.get('/Users/mliu/Downloads/UrbanSound8K/audio/fold10/100648-1-4-0.wav')
-predict = np.argmax(model.predict(save_dir + "/recording0.wav"), axis=-1)
+test = featureget.get(save_dir + "/recording0.wav")
+predict = np.argmax(model.predict(test), axis=-1)
 print(predict)
