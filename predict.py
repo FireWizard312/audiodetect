@@ -11,6 +11,7 @@ from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import Adam
 from keras.models import model_from_json
 import featureget
+import sounddevice as sd
 
 working_dir = os.getcwd()
 home_dir = os.path.expanduser('~')
@@ -29,32 +30,20 @@ data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
 
 data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
 
-# mfc=[]
-# chr=[]
-# me=[]
-# ton=[]
-# lab=[]
-# f_name=data_root + '/audio/fold'+str(data.fold[i])+'/'+str(data.slice_file_name[i])
-# X, s_rate = librosa.load(f_name, res_type='kaiser_fast')
-# mf = np.mean(librosa.feature.mfcc(y=X, sr=s_rate).T,axis=0)
-# mfc.append(mf)
-# try:
-#     t = np.mean(librosa.feature.tonnetz(y=librosa.effects.harmonic(X),
-#     sr=s_rate).T,axis=0)
-#     ton.append(t)
-# except:
-#     print(f_name)  
-# m = np.mean(librosa.feature.melspectrogram(X, sr=s_rate).T,axis=0)
-# me.append(m)
-# s = np.abs(librosa.stft(X))
-# c = np.mean(librosa.feature.chroma_stft(S=s, sr=s_rate).T,axis=0)
-# chr.append(c)
-# features = []
-# for i in range(len(ton)):
-#     features.append(np.concatenate((me[i], mfc[i], 
-#                 ton[i], chr[i]), axis=0))
+freq = 44100
 
+duration = 5
+
+
+
+# to record audio from
+# sound-device into a Numpy
+recording = sd.rec(int(duration * freq),
+				samplerate = freq, channels = 1)
+
+# Wait for the audio to complete
+sd.wait()
 
 test = featureget.get('/Users/mliu/Downloads/UrbanSound8K/audio/fold10/100648-1-4-0.wav')
-predict = np.argmax(model.predict(test), axis=-1)
+predict = np.argmax(model.predict(recording), axis=-1)
 print(predict)
