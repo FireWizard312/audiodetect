@@ -12,6 +12,7 @@ from keras.optimizers import Adam
 from keras.models import model_from_json
 import featureget
 import sounddevice as sd
+from scipy.io.wavfile import write
 
 working_dir = os.getcwd()
 home_dir = os.path.expanduser('~')
@@ -29,6 +30,7 @@ home_dir = os.path.expanduser('~')
 data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
 
 data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
+save_dir = os.path.expanduser('~') + "/Downloads"
 
 freq = 44100
 
@@ -43,6 +45,8 @@ recording = sd.rec(int(duration * freq),
 
 # Wait for the audio to complete
 sd.wait()
+
+write(save_dir + "/recording0.wav", freq, recording)
 
 test = featureget.get('/Users/mliu/Downloads/UrbanSound8K/audio/fold10/100648-1-4-0.wav')
 predict = np.argmax(model.predict(recording), axis=-1)
