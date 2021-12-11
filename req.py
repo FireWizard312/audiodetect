@@ -6,7 +6,7 @@ import time
 serial = spi(port=0, device=0, gpio=noop())
 device = max7219(serial)
 
-siren = [(0,7),(1,7),(2,7),(3,7),(4,7),(5,7),(6,7),(7,7),(2,6),(3,6),(4,6),(5,6),(2,5),(3,5),(4,5),(5,5),(2,4),(3,4),(4,4),(5,4),(3,3),(4,3),(0,0),(1,1),(6,1),(7,0),(3,1),(4,1),(3,0),(4,0)]
+siren = [(0,7),(1,7),(2,7),(3,7),(4,7),(5,7),(6,7),(7,7),(2,6),(3,6),(4,6),(5,6),(2,5),(3,5),(4,5),(5,5),(2,4),(3,4),(4,4),(5,4),(3,3),(4,3),(0,0),(1,1),(6,1),(7,0),(3,1),(3,0)]
 
 for i in range(3):
     with canvas(device) as draw:
@@ -65,7 +65,7 @@ for i in range(3):
     #     draw.point((7,0), fill = "black")
     #     draw.point((0,4), fill = "black")
     #     draw.point((7,4), fill = "black")
-    # time.sleep(2)
+    time.sleep(2)
 # url = "http://192.168.0.141:8000/things"
 # req = requests.get(url)
 # print(req.content)
