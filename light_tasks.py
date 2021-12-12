@@ -30,5 +30,6 @@ def lightsoff():
 
 def removetask():
         taskid = app.control.inspect.active()
+        print(taskid)
         taskid = taskid[0]
         app.control.revoke(taskid, terminate = True)
