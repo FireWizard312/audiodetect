@@ -12,10 +12,8 @@ class ThingsResource:
         resp.content_type = falcon.MEDIA_TEXT  # Default is JSON, so override
         class_id = int(class_id)
         if class_id == 8:
-            light_tasks.lightsoff.delay()
             light_tasks.sirenlightson.delay()
         elif class_id == 1:
-            light_tasks.lightsoff.delay()
             light_tasks.honklightson.delay()
         else:
             light_tasks.lightsoff.delay()
