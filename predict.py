@@ -13,6 +13,8 @@ from keras.models import model_from_json
 import featureget
 import sounddevice as sd
 from scipy.io.wavfile import write
+import time
+
 
 working_dir = os.getcwd()
 home_dir = os.path.expanduser('~')
@@ -38,6 +40,8 @@ duration = 5
 
 
 
+print("Start recording")
+time.sleep(1)
 # to record audio from
 # sound-device into a Numpy
 recording = sd.rec(int(duration * freq),

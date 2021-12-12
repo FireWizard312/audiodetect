@@ -11,10 +11,11 @@ import falcon
 # transitions, which map to HTTP verbs.
 class ThingsResource:
     def on_get(self, req, resp):
+        class_id = req.get_param('class_id')
         resp.status = falcon.HTTP_200  # This is the default status
         resp.content_type = falcon.MEDIA_TEXT  # Default is JSON, so override
-        resp.text = ('Hi')
-
+        resp.text = (f'I see you sent me {class_id}')
+        print(f'hi {class_id}')
 
 # falcon.App instances are callable WSGI apps
 # in larger applications the app is created in a separate file
@@ -24,7 +25,7 @@ app = falcon.App()
 things = ThingsResource()
 
 # things will handle all requests to the '/things' URL path
-app.add_route('/things', things)
+app.add_route('/', things)
 
 if __name__ == '__main__':
     with make_server('', 8000, app) as httpd:
