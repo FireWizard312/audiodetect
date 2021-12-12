@@ -49,5 +49,5 @@ while True:
 
     test = featureget.get(save_dir + "/recording0.wav")
     predict = np.argmax(model.predict(test), axis=-1)
-    url = "http://192.168.0.200:8000/" + str(predict)
+    url = "http://192.168.0.200:8000/?class_id=" + str(predict)
     req = requests.get(url)
