@@ -29,4 +29,4 @@ def lightsoff():
         draw.point(siren, fill = "black")
 
 def removetask():
-        app.control.purge()
+    app.control.purge()
