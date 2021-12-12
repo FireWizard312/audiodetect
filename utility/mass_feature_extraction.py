@@ -9,7 +9,7 @@ from tqdm import tqdm
 working_dir = os.getcwd()
 home_dir = os.path.expanduser('~')
 data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
-data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K-smallset.csv')
+data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
 mfc=[]
 chr=[]
 me=[]
