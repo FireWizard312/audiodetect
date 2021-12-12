@@ -1,15 +1,10 @@
-import IPython.display as ipd
 import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import librosa
-from tqdm import tqdm
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation
-from keras.optimizers import Adam
+from keras.layers import Dense, Dropout
 from keras.utils import to_categorical
 
 # to get the current working directory

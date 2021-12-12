@@ -1,6 +1,6 @@
 from wsgiref.simple_server import make_server
 import falcon
-import light_tasks
+import lights_tasks
         
 # Falcon follows the REST architectural style, meaning (among
 # other things) that you think in terms of resources and state
@@ -12,11 +12,11 @@ class LightsUpdate:
         resp.content_type = falcon.MEDIA_TEXT  # Default is JSON, so override
         class_id = int(class_id)
         if class_id == 8:
-            light_tasks.sirenlightson.delay()
+            lights_tasks.sirenlightson.delay()
         elif class_id == 1:
-            light_tasks.honklightson.delay()
+            lights_tasks.honklightson.delay()
         else:
-            light_tasks.lightsoff.delay()
+            lights_tasks.lightsoff.delay()
                     
 
 # falcon.App instances are callable WSGI apps
