@@ -4,6 +4,7 @@ from luma.led_matrix.device import max7219
 from luma.core.interface.serial import spi, noop
 from luma.core.render import canvas
 import time
+import glob
 
 app = Celery()
 
@@ -33,8 +34,9 @@ def sirenlightson():
 
 @app.task
 def lightsoff():
-    for f in os.listdir(save_dir):
-        os.remove(os.path.join(dir, f))
+    files = glob.glob(save_dir + "**")
+    for f in files:
+        os.remove(f)
 
 
 
