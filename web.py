@@ -15,7 +15,6 @@ class ThingsResource:
             print("8")
             light_tasks.lightson.delay()
         else:
-            light_tasks.removetask()
             light_tasks.lightsoff.delay()
                     
 
