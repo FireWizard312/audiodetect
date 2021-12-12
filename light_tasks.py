@@ -17,10 +17,10 @@ honk = [(0,3),(1,3),(0,4),(1,4),(0,2),(1,2),(0,5),(1,5),(2,3),(3,3),(4,3),(2,4),
 
 @app.task
 def sirenlightson():
-    check = os.listdir(save_dir)
+    check = len(os.listdir(save_dir))
     open(flag_file + str(check), "w")
     check = check + 1
-    while check == os.listdir(save_dir):
+    while check == len(os.listdir(save_dir)):
         with canvas(device) as draw:
             draw.point(siren, fill = "white")
         time.sleep(0.25)
@@ -40,10 +40,10 @@ def lightsoff():
 
 @app.task
 def honklightson():
-    check = os.listdir(save_dir)
+    check = len(os.listdir(save_dir))
     open(flag_file + str(check), "w")
     check = check + 1
-    while check == os.listdir(save_dir):
+    while check == len(os.listdir(save_dir)):
         with canvas(device) as draw:
             draw.point(honk, fill = "white")
         time.sleep(0.25)
