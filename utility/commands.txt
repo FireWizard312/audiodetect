@@ -1,2 +1,2 @@
-celery -A light_tasks worker --loglevel=debug
+cd /home/pi/src/audiodetect ; celery -A lights_tasks worker --loglevel=debug
 sudo systemctl enable rabbitmq-server
