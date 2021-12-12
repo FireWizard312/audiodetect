@@ -8,7 +8,7 @@ import time
 app = Celery()
 
 save_dir = os.path.expanduser('~') + "/Downloads"
-flag_file = save_dir + "/detects.txt"
+flag_file = save_dir + "/detects"
 serial = spi(port=0, device=0, gpio=noop())
 device = max7219(serial)
 
@@ -17,8 +17,10 @@ honk = [(0,3),(1,3),(0,4),(1,4),(0,2),(1,2),(0,5),(1,5),(2,3),(3,3),(4,3),(2,4),
 
 @app.task
 def sirenlightson():
-    os.remove(flag_file)
-    while not os.path.exists(flag_file):
+    check = os.listdir(save_dir)
+    open(flag_file + str(check), "w")
+    check = check + 1
+    while check == os.listdir(save_dir):
         with canvas(device) as draw:
             draw.point(siren, fill = "white")
         time.sleep(0.25)
@@ -31,14 +33,17 @@ def sirenlightson():
 
 @app.task
 def lightsoff():
-    open(flag_file, "w")
-    time.sleep(0.5)
+    for f in os.listdir(save_dir):
+        os.remove(os.path.join(dir, f))
+
 
 
 @app.task
 def honklightson():
-    os.remove(flag_file)
-    while not os.path.exists(flag_file):
+    check = os.listdir(save_dir)
+    open(flag_file + str(check), "w")
+    check = check + 1
+    while check == os.listdir(save_dir):
         with canvas(device) as draw:
             draw.point(honk, fill = "white")
         time.sleep(0.25)
@@ -47,6 +52,8 @@ def honklightson():
         time.sleep(0.1)
     with canvas(device) as draw:
         draw.point(honk, fill = "black")
+
+
 
 
 
