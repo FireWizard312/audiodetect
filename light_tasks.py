@@ -32,7 +32,7 @@ def sirenlightson():
 @app.task
 def lightsoff():
     open(flag_file, "w")
-    time.sleep(0.35)
+    time.sleep(0.5)
 
 
 @app.task
