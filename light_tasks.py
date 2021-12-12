@@ -1,3 +1,4 @@
+import os
 from celery import Celery
 from luma.led_matrix.device import max7219
 from luma.core.interface.serial import spi, noop
@@ -6,6 +7,8 @@ import time
 
 app = Celery()
 
+save_dir = os.path.expanduser('~') + "/Downloads"
+flag_file = save_dir + "/detects.txt"
 serial = spi(port=0, device=0, gpio=noop())
 device = max7219(serial)
 
@@ -14,7 +17,8 @@ honk = [(0,3),(1,3),(0,4),(1,4),(0,2),(1,2),(0,5),(1,5),(2,3),(3,3),(4,3),(2,4),
 
 @app.task
 def lightson():
-    while True:
+    os.remove(flag_file)
+    while not os.path.exists(flag_file):
         print("on")
         with canvas(device) as draw:
             draw.point(siren, fill = "white")
@@ -22,14 +26,9 @@ def lightson():
         with canvas(device) as draw:
             draw.point(siren, fill = "black")
         time.sleep(0.5)
-
-@app.task
-def lightsoff():
     with canvas(device) as draw:
         draw.point(siren, fill = "black")
 
-def removetask():
-    taskid = app.control.inspect.active()
-    print(taskid)
-    app.control.purge()
-    
+@app.task
+def lightsoff():
+    open(save_dir+"detect.txt", "w")
