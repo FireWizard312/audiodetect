@@ -1,20 +1,12 @@
-import IPython.display as ipd
 import os
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import librosa
-from tqdm import tqdm
-from sklearn.preprocessing import StandardScaler
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation
-from keras.optimizers import Adam
 from keras.models import model_from_json
 import featureget
 import sounddevice as sd
 from scipy.io.wavfile import write
 import time
-
+import requests
 
 working_dir = os.getcwd()
 home_dir = os.path.expanduser('~')
@@ -42,16 +34,20 @@ duration = 5
 
 print("Start recording")
 time.sleep(1)
+
 # to record audio from
+
 # sound-device into a Numpy
-recording = sd.rec(int(duration * freq),
-				samplerate = freq, channels = 1)
+while True:
+    recording = sd.rec(int(duration * freq),
+                    samplerate = freq, channels = 1)
 
-# Wait for the audio to complete
-sd.wait()
+    # Wait for the audio to complete
+    sd.wait()
 
-write(save_dir + "/recording0.wav", freq, recording)
+    write(save_dir + "/recording0.wav", freq, recording)
 
-test = featureget.get(save_dir + "/recording0.wav")
-predict = np.argmax(model.predict(test), axis=-1)
-print(predict)
+    test = featureget.get(save_dir + "/recording0.wav")
+    predict = np.argmax(model.predict(test), axis=-1)
+    url = "http://192.168.0.200:8000/" + str(predict)
+    req = requests.get(url)
