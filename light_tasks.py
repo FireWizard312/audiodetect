@@ -34,7 +34,7 @@ def sirenlightson():
 
 @app.task
 def lightsoff():
-    files = glob.glob(save_dir + "**")
+    files = glob.glob(save_dir + "/**")
     for f in files:
         os.remove(f)
 
