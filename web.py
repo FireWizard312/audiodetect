@@ -5,7 +5,6 @@ from luma.core.render import canvas
 import time
 from wsgiref.simple_server import make_server
 import falcon
-from celery.task.control import revoke
 
 app = Celery()
 
@@ -34,7 +33,7 @@ inspect = app.control.inspect()
 def removetask():
         taskid = inspect.active()
         taskid = taskid[0]
-        revoke(taskid, terminate = True)
+        app.control.revoke(taskid, terminate = True)
         
 # Falcon follows the REST architectural style, meaning (among
 # other things) that you think in terms of resources and state
