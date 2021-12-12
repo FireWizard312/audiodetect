@@ -19,7 +19,6 @@ honk = [(0,3),(1,3),(0,4),(1,4),(0,2),(1,2),(0,5),(1,5),(2,3),(3,3),(4,3),(2,4),
 def lightson():
     os.remove(flag_file)
     while not os.path.exists(flag_file):
-        print("on")
         with canvas(device) as draw:
             draw.point(siren, fill = "white")
         time.sleep(0.75)
@@ -31,4 +30,4 @@ def lightson():
 
 @app.task
 def lightsoff():
-    open(save_dir+"detect.txt", "w")
+    open(flag_file, "w")
