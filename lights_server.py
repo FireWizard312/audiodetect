@@ -5,7 +5,7 @@ import light_tasks
 # Falcon follows the REST architectural style, meaning (among
 # other things) that you think in terms of resources and state
 # transitions, which map to HTTP verbs.
-class ThingsResource:
+class LightsUpdate:
     def on_get(self, req, resp):
         class_id = req.get_param('class_id')
         resp.status = falcon.HTTP_200  # This is the default status
@@ -24,10 +24,10 @@ class ThingsResource:
 app = falcon.App()
 
 # Resources are represented by long-lived class instances
-things = ThingsResource()
+lights = LightsUpdate()
 
 # things will handle all requests to the '/things' URL path
-app.add_route('/', things)
+app.add_route('/', lights)
 
 if __name__ == '__main__':
     with make_server('', 8000, app) as httpd:
