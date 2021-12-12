@@ -21,10 +21,10 @@ def sirenlightson():
     while not os.path.exists(flag_file):
         with canvas(device) as draw:
             draw.point(siren, fill = "white")
-        time.sleep(0.75)
+        time.sleep(0.25)
         with canvas(device) as draw:
             draw.point(siren, fill = "black")
-        time.sleep(0.5)
+        time.sleep(0.1)
     with canvas(device) as draw:
         draw.point(siren, fill = "black")
 
@@ -32,6 +32,7 @@ def sirenlightson():
 @app.task
 def lightsoff():
     open(flag_file, "w")
+    time.sleep(0.35)
 
 
 @app.task
@@ -40,10 +41,10 @@ def honklightson():
     while not os.path.exists(flag_file):
         with canvas(device) as draw:
             draw.point(honk, fill = "white")
-        time.sleep(0.75)
+        time.sleep(0.25)
         with canvas(device) as draw:
             draw.point(honk, fill = "black")
-        time.sleep(0.5)
+        time.sleep(0.1)
     with canvas(device) as draw:
         draw.point(honk, fill = "black")
 
