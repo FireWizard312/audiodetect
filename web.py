@@ -1,6 +1,6 @@
 from wsgiref.simple_server import make_server
 import falcon
-import cel
+import light_tasks
         
 # Falcon follows the REST architectural style, meaning (among
 # other things) that you think in terms of resources and state
@@ -13,10 +13,10 @@ class ThingsResource:
         class_id = int(class_id)
         if class_id == 8:
             print("8")
-            cel.lightson.delay()
+            light_tasks.lightson.delay()
         else:
-            cel.removetask()
-            cel.lightsoff.delay()
+            light_tasks.removetask()
+            light_tasks.lightsoff.delay()
                     
 
 # falcon.App instances are callable WSGI apps
