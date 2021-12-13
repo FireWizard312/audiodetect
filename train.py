@@ -24,6 +24,7 @@ la = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
 lab2 = la['classID'].to_numpy()
 category_count = len(np.unique(lab2))
 
+#80% training 20% validation
 training_features, validation_features, training_labels, validation_labels = train_test_split(features2, lab2, stratify=lab2, test_size=0.2)
 unique, counts = np.unique(validation_labels, return_counts=True)
 validation_unique_count = dict(zip(unique, counts))
@@ -40,12 +41,13 @@ print(f'training data Y shape {validation_features.shape}')
 
 
 model = Sequential()
+#Input layer
 model.add(Dense(256, input_shape=(feature_count,), activation='relu'))
 model.add(Dropout(0.4))
-
+#Hidden layer
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.4))
-
+#Output layer
 model.add(Dense(10, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy',
