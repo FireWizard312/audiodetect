@@ -31,7 +31,7 @@ def lights(classid):
             time.sleep(0.1)
         with canvas(device) as draw:
             draw.point(siren, fill = "black")
-    if classid == 1:
+    elif classid == 1:
         while check == len(os.listdir(save_dir)):
             with canvas(device) as draw:
                 draw.point(honk, fill = "white")
@@ -41,9 +41,10 @@ def lights(classid):
             time.sleep(0.1)
         with canvas(device) as draw:
             draw.point(honk, fill = "black")
-    files = glob.glob(save_dir + "/**")
-    for f in files:
-        os.remove(f)
+    else:
+        files = glob.glob(save_dir + "/**")
+        for f in files:
+            os.remove(f)
 
 
 
