@@ -11,12 +11,7 @@ class LightsUpdate:
         resp.status = falcon.HTTP_200  # This is the default status
         resp.content_type = falcon.MEDIA_TEXT  # Default is JSON, so override
         class_id = int(class_id)
-        if class_id == 8:
-            lights_tasks.sirenlightson.delay()
-        elif class_id == 1:
-            lights_tasks.honklightson.delay()
-        else:
-            lights_tasks.lightsoff.delay()
+        lights_tasks.lights(class_id)
                     
 
 # falcon.App instances are callable WSGI apps
