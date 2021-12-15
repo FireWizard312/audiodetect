@@ -8,8 +8,8 @@ from tqdm import tqdm
 #to get the current working directory
 working_dir = os.getcwd()
 home_dir = os.path.expanduser('~')
-data_root = home_dir + "/Downloads/UrbanSound8K-small-test"
-data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K-smallset.csv')
+data_root = home_dir + "/Downloads/UrbanSound8K"
+data = pd.read_csv(working_dir + '/trainingdata/UrbanSound8K.csv')
 mfc=[]
 chr=[]
 me=[]
